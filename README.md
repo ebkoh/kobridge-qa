@@ -31,6 +31,36 @@ results/
   index_units.jsonl              every unit of the four indexes: ID, role, document, page,
                                  table identifier (no text)
 ```
+## Retrieval measures
+
+All measures are item-level hits at depth k over the 198 items whose labels name a
+governing clause or table. Content-based and source-label recall apply one matching
+rule to different strings.
+
+- **Content-based recall**: the body of a retrieved unit, or the caption or title of a
+  retrieved table unit, contains a labeled section number, a labeled table number, or
+  the labeled section title of at least four characters. Stored or inherited heading
+  paths and table identifiers are not read.
+- **Source-label recall**: the same match applied to stored source fields: section
+  numbers and titles in the unit's heading path, and table numbers in its caption,
+  title, or table identifier. Units from the other manual are excluded when the manual
+  is known. Section numbers match without a right-hand boundary, so a parent number
+  also matches a child heading.
+- **Reference-mention recall**: the unit's body contains a quoted passage of at least
+  eight characters from the gold evidence, or its text contains a labeled table number.
+- **Joint reference recall**: the source-label and reference-mention conditions hold in
+  the same unit.
+
+Multi-hop full-evidence coverage instead requires every labeled unit of an item to be
+matched.
+
+## What is not included
+
+The source manuals, the normalized unit corpus, and the indexing code are not
+distributed. The scoring code in `code/scoring/` reads unit text and therefore cannot
+be run from this repository alone; its judgements are stored in `results/`, from which
+`code/reproduce.py` recomputes every aggregate. The unit corpus is available from the
+corresponding author on reasonable request.
 
 ## Data schema
 
